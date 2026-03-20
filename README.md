@@ -1,6 +1,10 @@
-# Crave.js – Leclerc Bakery Storefront Template
+# Restaurant Storefront Starter
 
-Leclerc Bakery is a production-ready Crave.js storefront built with Next.js 15, React 19, and Tailwind CSS. It delivers a polished ordering journey—hero storytelling, rich menu browsing, accessible product dialogs, and a mobile-first cart—optimized for fast deployment on Vercel with CraveUp’s ordering APIs.
+Launch a production-ready restaurant ordering app in minutes.
+
+- Used in real multi-location deployments
+- Includes menu, cart, checkout, auth
+- Works with Square / Toast (or mock data)
 
 ---
 
