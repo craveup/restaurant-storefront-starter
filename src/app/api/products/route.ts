@@ -3,6 +3,17 @@ import {
   STORE_FRONT_API_BASE_URL,
   CRAVEUP_PUBLIC_API_KEY,
 } from "@/constants";
+import {
+  demoProducts,
+  shouldUseDemoStorefrontData,
+} from "@/lib/demo-storefront-data";
+
+const demoResponse = () =>
+  NextResponse.json(demoProducts, {
+    headers: {
+      "x-crave-demo-data": "true",
+    },
+  });
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -20,6 +31,9 @@ export async function GET(request: NextRequest) {
 
   if (!apiKey) {
     console.warn("NEXT_PUBLIC_CRAVEUP_API_KEY not found. API features will not work.");
+    if (shouldUseDemoStorefrontData()) {
+      return demoResponse();
+    }
     return NextResponse.json(
       { error: "API key not configured" },
       { status: 500 },
@@ -42,6 +56,9 @@ export async function GET(request: NextRequest) {
       const error = await response.json().catch(() => ({
         message: "Unknown error",
       }));
+      if (shouldUseDemoStorefrontData()) {
+        return demoResponse();
+      }
       return NextResponse.json(
         { error: error.message },
         { status: response.status },
@@ -51,6 +68,9 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
+    if (shouldUseDemoStorefrontData()) {
+      return demoResponse();
+    }
     console.error("Products API error:", error);
     return NextResponse.json(
       { error: "Internal server error" },

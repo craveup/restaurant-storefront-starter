@@ -100,7 +100,7 @@ export function LeclercMenu({ isHomePage = false }: LeclercMenuProps) {
           </p>
           {!isLoading && !hasError && categories.length > 0 && (
             <div className="mt-4 text-sm text-green-600 dark:text-green-400">
-              Connected to CraveUp API
+              Menu data ready
             </div>
           )}
         </div>

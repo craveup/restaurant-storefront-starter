@@ -2,6 +2,10 @@ import { useCart } from "@/hooks/useCart";
 import { useApiResource } from "@/hooks/useApiResource";
 import type { MenusResponse } from "@/types/menus";
 import { location_Id as DEFAULT_LOCATION_ID } from "@/constants";
+import {
+  demoMenusResponse,
+  shouldUseDemoStorefrontData,
+} from "@/lib/demo-storefront-data";
 
 type UseMenusOptions = {
   locationId?: string;
@@ -25,7 +29,19 @@ const useMenus = ({ locationId: overrideLocationId, isEnabled = true }: UseMenus
     ? `/api/v1/locations/${locationId}/menus?orderDate=${orderDate}&orderTime=${orderTime}`
     : null;
 
-  return useApiResource<MenusResponse>(endpoint, { shouldFetch });
+  const resource = useApiResource<MenusResponse>(endpoint, { shouldFetch });
+
+  if (shouldUseDemoStorefrontData() && (!shouldFetch || resource.error)) {
+    return {
+      ...resource,
+      data: demoMenusResponse,
+      error: undefined,
+      errorMessage: undefined,
+      isLoading: false,
+    };
+  }
+
+  return resource;
 };
 
 export default useMenus;
